@@ -68,6 +68,9 @@ def load_sphinx_config_worker(q, confpath, confoverrides, add_defaults):
                 str,
             )
             current_config.add("smv_prefer_remote_refs", False, "html", bool)
+            current_config.add("smv_latest_version","","html",str)
+            current_config.add("smv_rename_latest_version","","html",str)
+
         current_config.pre_init_values()
         current_config.init_values()
     except Exception as err:
@@ -264,6 +267,11 @@ def main(argv=None):
                 ref=gitref,
                 config=current_config,
             )
+
+            # Rename output dir
+            if config.smv_latest_version == gitref.name and config.smv_rename_latest_version:
+                outputdir = config.smv_rename_latest_version
+
             if outputdir in outputdirs:
                 logger.warning(
                     "outputdir '%s' for %s conflicts with other versions",

@@ -105,6 +105,20 @@ Here are some examples:
 
     Have a look at `PyFormat <python_format_>`_ for information how to use new-stye Python formatting.
 
+Latest version
+==============
+
+The ``smv_latest_version`` setting determines which is the latest version.
+Setting this option could be useful to show a warning when users are not reading the latest version.
+
+You can override the latest version output directory with ``smv_rename_latest_version``.
+
+Here's an example:
+
+.. code-block:: python
+
+    smv_latest_version = 'x.y.z'        # Use the branch/tag name
+    smv_rename_latest_version = 'latest' # Use the commit hash
 
 Overriding Configuration Variables
 ==================================

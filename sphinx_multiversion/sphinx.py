@@ -197,6 +197,7 @@ def setup(app):
     app.add_config_value("smv_metadata_path", "", "html")
     app.add_config_value("smv_current_version", "", "html")
     app.add_config_value("smv_latest_version", "master", "html")
+    app.add_config_value("smv_rename_latest_version", "", "html")
     app.add_config_value("smv_tag_whitelist", DEFAULT_TAG_WHITELIST, "html")
     app.add_config_value(
         "smv_branch_whitelist", DEFAULT_BRANCH_WHITELIST, "html"
