@@ -371,8 +371,10 @@ def main(argv=None):
             if pre_build_commands:
                 logger.debug("Running pre build commands:")
                 for command in pre_build_commands:
-                    subprocess.check_call(command, cwd=current_cwd, env=env)
-            
+                    try:
+                        subprocess.check_call(command, cwd=current_cwd, env=env)
+                    except OSError as err:
+                        logger.warning("Command '%s' failed for build '%s': '%s'", command, data["name"], err)
             subprocess.check_call(cmd, cwd=current_cwd, env=env)
 
     return 0
