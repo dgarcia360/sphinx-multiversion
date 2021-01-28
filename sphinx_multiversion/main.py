@@ -268,8 +268,10 @@ def main(argv=None):
                 config=current_config,
             )
 
-            # Rename output dir
+            # Rename outputdir to latest version name
+            aliasdir = ''
             if config.smv_latest_version == gitref.name and config.smv_rename_latest_version:
+                aliasdir = outputdir
                 outputdir = config.smv_rename_latest_version
 
             if outputdir in outputdirs:
@@ -304,6 +306,9 @@ def main(argv=None):
                 "sourcedir": current_sourcedir,
                 "outputdir": os.path.join(
                     os.path.abspath(args.outputdir), outputdir
+                ),
+                "aliasdir": '' if not aliasdir else os.path.join(
+                    os.path.abspath(args.outputdir), aliasdir
                 ),
                 "confdir": confpath,
                 "docnames": list(project.discover()),
@@ -376,5 +381,11 @@ def main(argv=None):
                     except OSError as err:
                         logger.warning("Command '%s' failed for build '%s': '%s'", command, data["name"], err)
             subprocess.check_call(cmd, cwd=current_cwd, env=env)
+
+            # Create alias for latest version
+            if data['aliasdir']:
+                if os.path.exists(data['aliasdir']):
+                     os.remove(data['aliasdir'])
+                os.symlink(data['outputdir'], data['aliasdir'])
 
     return 0
